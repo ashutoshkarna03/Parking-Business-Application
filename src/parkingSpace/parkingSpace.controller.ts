@@ -17,26 +17,26 @@ export class ParkingSpaceController {
 
   @Get()
   findAll() {
-    return this.parkingSpaceService.getNotes();
+    return this.parkingSpaceService.getParkingSpace();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id) {
-    return this.parkingSpaceService.findOne(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id', ParseIntPipe) id) {
+  //   return this.parkingSpaceService.findOne(id);
+  // }
 
-  @Post() create(@Body() parkingSpace: ParkingSpace) {
-    return this.parkingSpaceService.createNote(parkingSpace);
-  }
+  // @Post() create(@Body() parkingSpace: ParkingSpace) {
+  //   return this.parkingSpaceService.createNote(parkingSpace);
+  // }
 
-  @Patch(':id')
-  async editNote(@Body() parkingSpace: ParkingSpace, @Param('id') id: number): Promise<ParkingSpace> {
-    const noteEdited = await this.parkingSpaceService.editNote(id, parkingSpace);
-    return noteEdited;
-  }
+  // @Patch(':id')
+  // async editNote(@Body() parkingSpace: ParkingSpace, @Param('id') id: number): Promise<ParkingSpace> {
+  //   const noteEdited = await this.parkingSpaceService.editNote(id, parkingSpace);
+  //   return noteEdited;
+  // }
 
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id) {
-    this.parkingSpaceService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id', ParseIntPipe) id) {
+  //   this.parkingSpaceService.remove(id);
+  // }
 }

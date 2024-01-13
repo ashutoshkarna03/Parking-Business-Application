@@ -1,19 +1,43 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { BaseEntity, Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { IsString } from 'class-validator';
 
 @Entity()
 export class ParkingSpace extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 150 })
-  @MinLength(1)
-  @MaxLength(150)
-  @IsString()
-  title: string;
+  @PrimaryColumn()
+  spaceId: number;
 
   @Column()
-  @MinLength(1)
+  buildingId: number;
+
+  @Column()
+  floorId: number;
+
+  @Column()
+  isOccupied: boolean;
+
   @IsString()
-  description: string;
+  @Column()
+  category: string;
+}
+
+@Entity()
+export class Session extends BaseEntity {
+  @PrimaryGeneratedColumn("uuid")
+  sessionId: string;
+
+  @Column('decimal')
+  totalCost: number;
+
+  @Column()
+  spaceId: number;
+
+  @Column()
+  startTime: string;
+
+  @Column()
+  endTime: string;
+
+  @IsString()
+  @Column()
+  category: string;
 }
