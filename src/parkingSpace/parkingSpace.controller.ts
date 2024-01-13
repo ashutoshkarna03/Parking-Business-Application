@@ -23,7 +23,7 @@ export class ParkingSpaceController {
     return this.parkingSpaceService.getParkingSpace();
   }
 
-  @Post('/check-in')
+  @Post('/checkIn')
   checkIn(@Body() body: CheckInRequestDto, @Res() res: Response) {
     console.log(body)
     const checkInResponse = {
