@@ -21,23 +21,19 @@ export class ParkingSpace extends BaseEntity {
 }
 
 @Entity()
-export class Session extends BaseEntity {
+export class ParkingSession extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   sessionId: string;
 
-  @Column('decimal')
+  @Column('decimal', {nullable: true})
   totalCost: number;
 
   @Column()
   spaceId: number;
 
-  @Column()
+  @Column({nullable: true})
   startTime: string;
 
-  @Column()
+  @Column({nullable: true})
   endTime: string;
-
-  @IsString()
-  @Column()
-  category: string;
 }

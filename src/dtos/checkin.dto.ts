@@ -1,5 +1,9 @@
 export class CheckInRequestDto {
-    name: string;
-    age: number;
-    breed: string;
+    vehicleType: string;
+    isResident: boolean;
+}
+
+export class CheckInResponseDto {
+    parkingSessionId: string;
+    parkingSpaceId: number;
 }

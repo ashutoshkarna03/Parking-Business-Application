@@ -10,9 +10,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
-import { ParkingSpace } from './parkingSpace.entity';
+import { ParkingSpace, ParkingSession } from './parkingSpace.entity';
 import { ParkingSpaceService } from './parkingSpace.service';
 import { CheckInRequestDto } from './../dtos/checkin.dto';
+import { Session } from 'inspector';
 
 @Controller('parkingSpace')
 export class ParkingSpaceController {
@@ -24,13 +25,38 @@ export class ParkingSpaceController {
   }
 
   @Post('/checkIn')
-  checkIn(@Body() body: CheckInRequestDto, @Res() res: Response) {
-    console.log(body)
-    const checkInResponse = {
-      parkingSessionId: "UUID",
-      parkingSpaceId: 1
-    };
-    res.status(201).json(checkInResponse);
+  async checkIn(@Body() body: CheckInRequestDto, @Res() res: Response) {
+    try {
+      // determine category
+      let category: string
+      if (body.isResident) {
+        category = 'resident'
+      } else {
+        if (body.vehicleType === 'CAR') {
+          category = 'car'
+        } else if (body.vehicleType === 'MOTORCYCLE'){
+          category = 'motorcycle'
+        } else {
+          return res.status(404).json({message: "Invalid vehicle type"})
+        }
+      }
+      let availableSpace: ParkingSpace = await this.parkingSpaceService.getParkingSpaceByCategory(category);
+      if (!availableSpace) {
+        return res.status(404).json({
+          message: "Parking Space not available"
+        })
+      }
+      let session : ParkingSession =  await this.parkingSpaceService.createParkingSession(availableSpace.spaceId)
+      res.status(201).json({
+        parkingSessionId: session.sessionId,
+        parkingSpaceId: availableSpace.spaceId
+      })
+
+    } catch (err) {
+      console.log(err)
+    }
+    
+    // res.status(201).json(checkInResponse);
   }
 
   // @Get(':id')

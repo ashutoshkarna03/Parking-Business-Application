@@ -1,15 +1,44 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ParkingSpace } from './parkingSpace.entity';
+import { ParkingSpace, ParkingSession } from './parkingSpace.entity';
+import { uuid } from 'uuidv4';
 
 @Injectable()
 export class ParkingSpaceService {
   constructor(
     @InjectRepository(ParkingSpace) private parkingSpaceRepository: Repository<ParkingSpace>,
+    @InjectRepository(ParkingSession) private parkingSessionRepository: Repository<ParkingSession>,
   ) {}
   async getParkingSpace(): Promise<ParkingSpace[]> {
     return await this.parkingSpaceRepository.find();
+  }
+
+  async getParkingSpaceByCategory(category: string): Promise<ParkingSpace> {
+    return await this.parkingSpaceRepository.findOne({
+      where: {
+        category: category,
+        isOccupied: false
+      },
+    })
+  }
+
+  async createParkingSession(spaceId: number): Promise<ParkingSession> {
+    // make given spaceId occupied
+    let space: ParkingSpace = await this.parkingSpaceRepository.findOne({
+      where: {
+        spaceId
+      }
+    })
+    space.isOccupied = true
+    await space.save()
+
+    // create session
+    return await this.parkingSessionRepository.save({
+      spaceId,
+      sessionId: uuid().toString(),
+      startTime: (Math.floor(+new Date() / 1000)).toString()
+    })
   }
 
   // findOne(id: string): Promise<ParkingSpace> {
