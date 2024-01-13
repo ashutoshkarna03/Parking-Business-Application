@@ -2,14 +2,32 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ParkingSpace } from './parkingSpace.entity';
+import { PaginationOptionsInterface } from '../pagination/pagination.options.interface'
+import { Pagination } from '../pagination/pagination'
 
 @Injectable()
 export class ParkingSpaceService {
   constructor(
     @InjectRepository(ParkingSpace) private parkingSpaceRepository: Repository<ParkingSpace>,
-  ) {}
+  ) { }
+
   async getParkingSpace(): Promise<ParkingSpace[]> {
     return await this.parkingSpaceRepository.find();
+  }
+
+  async paginate(
+    options: PaginationOptionsInterface,
+  ): Promise<Pagination<ParkingSpace>> {
+    const [results, total] = await this.parkingSpaceRepository.findAndCount({
+      take: options.limit,
+      skip: options.page, // think this needs to be page * limit
+    });
+
+
+    return new Pagination<ParkingSpace>({
+      results,
+      total,
+    });
   }
 
   // findOne(id: string): Promise<ParkingSpace> {
