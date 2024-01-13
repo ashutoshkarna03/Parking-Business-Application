@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ParkingSpace } from './parkingSpace.entity';
 import { PaginationOptionsInterface } from '../pagination/pagination.options.interface'
-import { Pagination } from '../pagination/pagination'
+import { OccupationResponseDto } from '../dtos/occupation.dto'
 
 @Injectable()
 export class ParkingSpaceService {
@@ -17,17 +17,20 @@ export class ParkingSpaceService {
 
   async paginate(
     options: PaginationOptionsInterface,
-  ): Promise<Pagination<ParkingSpace>> {
+  ): Promise<OccupationResponseDto[]> {
     const [results, total] = await this.parkingSpaceRepository.findAndCount({
       take: options.limit,
       skip: options.page, // think this needs to be page * limit
     });
-
-
-    return new Pagination<ParkingSpace>({
-      results,
-      total,
-    });
+    let occupationData: OccupationResponseDto[] = []
+    for (let i=0; i<results.length; i++) {
+      occupationData.push({
+        parkingSpaceId: results[i].spaceId,
+        vehicleType: results[i].category,
+        isOccupied: results[i].isOccupied,
+      })
+    }
+    return occupationData;
   }
 
   // findOne(id: string): Promise<ParkingSpace> {
