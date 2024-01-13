@@ -6,10 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
 import { ParkingSpace } from './parkingSpace.entity';
 import { ParkingSpaceService } from './parkingSpace.service';
+import { CheckInRequestDto } from './../dtos/checkin.dto';
 
 @Controller('parkingSpace')
 export class ParkingSpaceController {
@@ -18,6 +21,16 @@ export class ParkingSpaceController {
   @Get()
   findAll() {
     return this.parkingSpaceService.getParkingSpace();
+  }
+
+  @Post('/check-in')
+  checkIn(@Body() body: CheckInRequestDto, @Res() res: Response) {
+    console.log(body)
+    const checkInResponse = {
+      parkingSessionId: "UUID",
+      parkingSpaceId: 1
+    };
+    res.status(201).json(checkInResponse);
   }
 
   // @Get(':id')
