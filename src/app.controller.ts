@@ -20,4 +20,9 @@ export class AppController {
     };
     res.status(201).json(checkInResponse);
   }
+
+  @Get('/occupation')
+  getOccupation(): string {
+    return this.appService.getHello();
+  }
 }
