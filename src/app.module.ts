@@ -5,10 +5,7 @@ import { AppService } from './app.service';
 import { ParkingSpaceModule } from './parkingSpace/parkingSpace.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    ParkingSpaceModule
-  ],
+  imports: [TypeOrmModule.forRoot(), ParkingSpaceModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,4 +1,10 @@
-import { BaseEntity, Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { IsString } from 'class-validator';
 
 @Entity()
@@ -22,21 +28,21 @@ export class ParkingSpace extends BaseEntity {
 
 @Entity()
 export class ParkingSession extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   sessionId: string;
 
-  @Column('decimal', {nullable: true})
+  @Column('decimal', { nullable: true })
   totalCost: number;
 
   @Column()
   spaceId: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   startTime: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   endTime: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   category: string;
 }

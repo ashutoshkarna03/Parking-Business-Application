@@ -1,5 +1,5 @@
 export class OccupationResponseDto {
-    parkingSpaceId: number;
-    vehicleType: string;
-    isOccupied: boolean;
+  parkingSpaceId: number;
+  vehicleType: string;
+  isOccupied: boolean;
 }

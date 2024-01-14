@@ -1,10 +1,10 @@
 export class CheckOutRequestDto {
-    parkingSessionId: string;
-    isResident: boolean;
+  parkingSessionId: string;
+  isResident: boolean;
 }
 
 export class CheckOutResponseDto {
-    sessionLengthInHoursMinutes: number;
-    parkingSpaceId: number;
-    parkingCost: number;
+  sessionLengthInHoursMinutes: number;
+  parkingSpaceId: number;
+  parkingCost: number;
 }

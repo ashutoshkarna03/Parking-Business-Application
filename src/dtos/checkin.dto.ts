@@ -1,9 +1,9 @@
 export class CheckInRequestDto {
-    vehicleType: string;
-    isResident: boolean;
+  vehicleType: string;
+  isResident: boolean;
 }
 
 export class CheckInResponseDto {
-    parkingSessionId: string;
-    parkingSpaceId: number;
+  parkingSessionId: string;
+  parkingSpaceId: number;
 }
