@@ -1,3 +1,8 @@
+-- to cleanup table if data already exists
+-- comment this if you don't need cleanup
+DELETE FROM `parkinglot`.`parking_space`;
+
+-- INSERT data into parking_space table
 -- resident
 INSERT INTO `parkinglot`.`parking_space` (`spaceId`,`buildingId`,`floorId`,`isOccupied`,`category`) VALUES (1,1,1,false,'resident');
 INSERT INTO `parkinglot`.`parking_space` (`spaceId`,`buildingId`,`floorId`,`isOccupied`,`category`) VALUES (2,1,1,false,'resident');

@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post, Res, Request } from '@nestjs/common';
 import { Response } from 'express';
-import { ParkingSpace, ParkingSession } from './parkingSpace.entity';
-import { ParkingSpaceService } from './parkingSpace.service';
-import { CheckInRequestDto, CheckInResponseDto } from './../dtos/checkin.dto';
+import { ParkingSpace, ParkingSession } from './parkingBusiness.entity';
+import { ParkingSpaceService } from './parkingBusiness.service';
+import { CheckInRequestDto, CheckInResponseDto } from '../dtos/checkin.dto';
 import {
   CheckOutRequestDto,
   CheckOutResponseDto,
-} from './../dtos/checkout.dto';
-import { OccupationResponseDto } from './../dtos/occupation.dto';
+} from '../dtos/checkout.dto';
+import { OccupationResponseDto } from '../dtos/occupation.dto';
 
-@Controller('parkingSpace')
+@Controller('parkingBusiness')
 export class ParkingSpaceController {
   constructor(private parkingSpaceService: ParkingSpaceService) {}
 
@@ -59,7 +59,7 @@ export class ParkingSpaceController {
       );
       if (!result) {
         return res.status(404).json({
-          message: 'Session Id does not exist',
+          message: 'Session Id does not exist or session has already ended',
         });
       }
       return res.status(201).json(result);

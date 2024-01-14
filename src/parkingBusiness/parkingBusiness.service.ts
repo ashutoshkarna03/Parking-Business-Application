@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginationOptionsInterface } from '../pagination/pagination.options.interface';
 import { OccupationResponseDto } from '../dtos/occupation.dto';
-import { ParkingSpace, ParkingSession } from './parkingSpace.entity';
-import { CheckOutResponseDto } from './../dtos/checkout.dto';
+import { ParkingSpace, ParkingSession } from './parkingBusiness.entity';
+import { CheckOutResponseDto } from '../dtos/checkout.dto';
 import { uuid } from 'uuidv4';
 
 @Injectable()
@@ -74,7 +74,12 @@ export class ParkingSpaceService {
         sessionId,
       },
     });
+    // check if session exists or not
     if (!session) {
+      return null;
+    }
+    // check if given session has ended already
+    if (session.endTime) {
       return null;
     }
     // calculate cost
