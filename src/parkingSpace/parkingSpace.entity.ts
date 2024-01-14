@@ -36,4 +36,7 @@ export class ParkingSession extends BaseEntity {
 
   @Column({nullable: true})
   endTime: string;
+
+  @Column({nullable: true})
+  category: string;
 }

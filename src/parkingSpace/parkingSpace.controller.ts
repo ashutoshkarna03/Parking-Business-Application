@@ -9,7 +9,8 @@ import {
 import { Response } from 'express';
 import { ParkingSpace, ParkingSession } from './parkingSpace.entity';
 import { ParkingSpaceService } from './parkingSpace.service';
-import { CheckInRequestDto } from './../dtos/checkin.dto';
+import { CheckInRequestDto, CheckInResponseDto } from './../dtos/checkin.dto';
+import { CheckOutRequestDto, CheckOutResponseDto } from './../dtos/checkout.dto';
 import { OccupationResponseDto } from './../dtos/occupation.dto';
 
 @Controller('parkingSpace')
@@ -38,11 +39,29 @@ export class ParkingSpaceController {
           message: "Parking Space not available"
         })
       }
-      let session : ParkingSession =  await this.parkingSpaceService.createParkingSession(availableSpace.spaceId)
-      res.status(201).json({
+      let session : ParkingSession =  await this.parkingSpaceService.createParkingSession(availableSpace.spaceId, category)
+      let response: CheckInResponseDto = {
         parkingSessionId: session.sessionId,
         parkingSpaceId: availableSpace.spaceId
-      })
+      }
+      return res.status(201).json(response)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  @Post('/checkOut')
+  async checkOut(@Body() body: CheckOutRequestDto, @Res() res: Response) {
+    try {
+      
+      let result : CheckOutResponseDto | null =  await this.parkingSpaceService.endParkingSession(body.parkingSessionId)
+      if (!result) {
+        return res.status(404).json({
+          message: "Session Id does not exist"
+        })
+      }
+      return res.status(201).json(result);
 
     } catch (err) {
       console.log(err)
@@ -50,10 +69,11 @@ export class ParkingSpaceController {
   }
 
   @Get('/occupation')
-  async getOccupation(@Request() request): Promise<OccupationResponseDto[]> {
-    return await this.parkingSpaceService.paginate({
+  async getOccupation(@Request() request, @Res() res: Response) {
+    let response: OccupationResponseDto[] = await this.parkingSpaceService.paginate({
       page: request.query.hasOwnProperty('page') ? request.query.page : 0,
       limit: request.query.hasOwnProperty('limit') ? request.query.limit : 10,
     });
+    return res.status(201).json(response) 
   }
 }
