@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
 
@@ -11,4 +11,12 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "./dbdata:/var/lib/mysql:rw"
+      - "./mysql/dbdata:/var/lib/mysql:rw"
+
+  app:
+    build:
+      context: .
+    depends_on:
+      - mysqldb
+    ports:
+      - '3000:3000'
