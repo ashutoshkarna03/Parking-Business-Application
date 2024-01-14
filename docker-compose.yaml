@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "./mysql/dbdata:/var/lib/mysql:rw"
+      - "./mysql/mysqldbdata:/var/lib/mysql:rw"
 
   app:
     build:
